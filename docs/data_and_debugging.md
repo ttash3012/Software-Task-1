@@ -15,7 +15,7 @@ The following table defines the data structures used within the application to e
 ## 2. Debugging Report
 
 ### Debugging Tools Used
-* **Browser Developer Tools (F12):** Utilized the Console tab to track JavaScript variable states and catch `ReferenceErrors`.
+* **Browser Developer Tools (F12):** Utilised the Console tab to track JavaScript variable states and catch `ReferenceErrors`.
 * **VS Code Debugger:** Set breakpoints to pause execution during the calculation phase to inspect logic flow.
 * **Console Logging:** Implemented `console.log()` (JS) and `print()` (Python) to verify data integrity during parameter passing.
 
