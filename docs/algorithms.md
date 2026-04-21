@@ -3,7 +3,7 @@
 ## 1. System Structure Chart
 The following chart shows how the program is broken into modular subprograms.
 
-![Structure Chart]
+[Structure Chart]
 (https://docs.google.com/drawings/d/1K5g7xIk4ZgWAOtiWKrpM8L4bH26M2Me2AOoJguQ-iNY/edit?usp=sharing)
 
 ## 2. Main Program Logic (Pseudocode)
