@@ -2,119 +2,145 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>EduQuiz: Study Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Engineering: Study Quiz Pro</title>
     <style>
-        /* CSS3: Clean, focused educational UI */
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; padding-top: 50px; }
-        .quiz-container { background: white; width: 500px; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .question-header { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
-        .option-btn { display: block; width: 100%; padding: 12px; margin: 10px 0; background: #fff; border: 2px solid #3498db; border-radius: 5px; cursor: pointer; text-align: left; transition: 0.3s; }
-        .option-btn:hover { background: #e8f4fd; }
-        .score-board { float: right; font-weight: bold; color: #3498db; }
-        #feedback { font-weight: bold; margin-top: 20px; text-align: center; }
+        /* CSS3: Professional Educational Interface */
+        :root {
+            --primary: #3498db;
+            --success: #27ae60;
+            --error: #e74c3c;
+            --bg: #f4f7f6;
+            --text: #2c3e50;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg); 
+            display: flex; 
+            justify-content: center; 
+            padding: 40px 20px;
+            color: var(--text);
+        }
+
+        .quiz-container { 
+            background: white; 
+            width: 100%;
+            max-width: 600px; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1); 
+        }
+
+        .header-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .question-text { font-size: 1.3rem; margin-bottom: 20px; line-height: 1.4; }
+
+        .option-btn { 
+            display: block; 
+            width: 100%; 
+            padding: 15px; 
+            margin: 12px 0; 
+            background: #fff; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            text-align: left; 
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover { 
+            border-color: var(--primary);
+            background: #f0f7ff;
+            transform: translateY(-2px);
+        }
+
+        .score-display { font-weight: bold; color: var(--primary); font-size: 1.1rem; }
+
+        #feedback { 
+            font-weight: bold; 
+            margin-top: 20px; 
+            text-align: center; 
+            min-height: 24px;
+        }
+
         .hidden { display: none; }
+
+        .btn-restart {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
 <div class="quiz-container">
-    <div class="score-board">Score: <span id="score">0</span></div>
+    <div class="header-box">
+        <h3 style="margin:0;">EduQuiz Generator</h3>
+        <div class="score-display">Score: <span id="score">0</span></div>
+    </div>
+
     <div id="quiz-ui">
-        <h2 class="question-header" id="question-text">Question Loading...</h2>
-        <div id="options-container">
-            </div>
+        <div class="question-text" id="question-text">Initializing quiz engine...</div>
+        <div id="options-container"></div>
         <div id="feedback"></div>
     </div>
     
-    <div id="final-screen" class="hidden">
-        <h2>Quiz Complete!</h2>
-        <p>Your final score is: <span id="final-score">0</span></p>
-        <button onclick="location.reload()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">Restart Quiz</button>
+    <div id="final-screen" class="hidden" style="text-align: center;">
+        <h2>Quiz Complete! 🎓</h2>
+        <p style="font-size: 1.2rem;">Your final score: <span id="final-score">0</span> / <span id="total-qs">0</span></p>
+        <button class="btn-restart" onclick="location.reload()">Restart Session</button>
     </div>
 </div>
 
 <script>
-    /* 1. DATA STRUCTURE: The Question Bank */
-    // Using an Array of Objects to store quiz data
+    /* 1. DATA STRUCTURE: The Question Bank (Expanded) */
+    // This fulfills the requirement for an organized data structure.
     const quizData = [
         { 
-            q: "Which keyword is used to declare a variable in JavaScript?", 
-            options: ["var", "define", "allocate", "store"], 
-            correct: "var" 
+            q: "Which keyword is used to declare a constant variable in JavaScript?", 
+            options: ["const", "var", "let", "fixed"], 
+            correct: "const" 
         },
         { 
             q: "What does HTML stand for?", 
-            options: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyperlink Text Magic Language", "Home Tool Markup Language"], 
+            options: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyperlink Text Magic", "Home Tool Markup Language"], 
             correct: "Hyper Text Markup Language" 
         },
         { 
-            q: "Which data type is used for decimal numbers?", 
-            options: ["Integer", "String", "Float", "Boolean"], 
+            q: "In programming, which control structure is used for repeating a task?", 
+            options: ["Selection", "Sequence", "Iteration", "Storage"], 
+            correct: "Iteration" 
+        },
+        { 
+            q: "Which data type is most appropriate for a measurement like 1.75 meters?", 
+            options: ["Integer", "Boolean", "Float", "String"], 
             correct: "Float" 
-        }
-    ];
-
-    /* Global State Variables */
-    let currentQuestionIndex = 0;
-    let score = 0;
-
-    /* 2. SUBPROGRAM: loadQuestion */
-    function loadQuestion() {
-        const currentData = quizData[currentQuestionIndex];
-        document.getElementById('question-text').innerText = currentData.q;
-        const optionsDiv = document.getElementById('options-container');
-        optionsDiv.innerHTML = ""; // Clear old options
-
-        // ITERATION: Loop through the options array to create buttons
-        currentData.options.forEach(option => {
-            const btn = document.createElement('button');
-            btn.innerText = option;
-            btn.className = "option-btn";
-            // Passing the user choice as a PARAMETER
-            btn.onclick = () => handleAnswer(option);
-            optionsDiv.appendChild(btn);
-        });
-    }
-
-    /* 3. SUBPROGRAM: handleAnswer (Parameter Passing & Selection) */
-    function handleAnswer(choice) {
-        const correctAnswer = quizData[currentQuestionIndex].correct;
-        const feedback = document.getElementById('feedback');
-
-        if (choice === correctAnswer) {
-            score++;
-            feedback.innerText = "Correct! ✨";
-            feedback.style.color = "#27ae60";
-        } else {
-            feedback.innerText = "Incorrect. The answer was: " + correctAnswer;
-            feedback.style.color = "#e74c3c";
-        }
-
-        document.getElementById('score').innerText = score;
-
-        // Sequence logic to move forward
-        currentQuestionIndex++;
-        
-        setTimeout(() => {
-            if (currentQuestionIndex < quizData.length) {
-                loadQuestion();
-                feedback.innerText = "";
-            } else {
-                showFinalScore();
-            }
-        }, 1500);
-    }
-
-    /* 4. SUBPROGRAM: showFinalScore */
-    function showFinalScore() {
-        document.getElementById('quiz-ui').classList.add('hidden');
-        document.getElementById('final-screen').classList.remove('hidden');
-        document.getElementById('final-score').innerText = score;
-    }
-
-    // Initialize the quiz
-    loadQuestion();
-</script>
-
-</body>
-</html>
+        },
+        { 
+            q: "What is the role of a 'Structure Chart' in software design?", 
+            options: ["Styling the webpage", "Showing program modularity", "Storing data", "Debugging syntax errors"], 
+            correct: "Showing program modularity" 
+        },
+        { 
+            q: "Which of these is a professional version control platform?", 
+            options: ["GitHub", "Sublime Text", "Chrome", "Windows"], 
+            correct: "GitHub" 
+        },
+        { 
+            q: "If a = 5 and b = 1
+                
