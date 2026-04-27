@@ -1,4 +1,4 @@
-# Software Engineering: Study Quiz Generator
+# Software Engineering Task 1: Study Quiz Generator
 **Interactive Educational Product for Software Engineering Students**
 
 ## Project Overview
