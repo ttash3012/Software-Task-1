@@ -4,8 +4,6 @@
 ## About My Project
 For this task, I designed and coded an interactive quiz website. The main goal was to create a tool that helps other students study for Software Engineering by testing them on things like programming logic and data types.
 
-I didn't just write the code—I followed the whole development cycle. This meant planning out my requirements first, drawing a structure chart to see how the "bits" of my program fit together, and using GitHub to track my progress every week.
-
 ---
 
 ## How the Code Works (Part B Stuff)
