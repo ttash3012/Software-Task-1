@@ -1,15 +1,15 @@
-# 🎓 Software Engineering: Study Quiz Generator
+# Software Engineering: Study Quiz Generator
 **Interactive Educational Product for Software Engineering Students**
 
-## 📝 Project Overview
+## Project Overview
 This project is an interactive, web-based educational tool designed to help students learn and review core Programming and Software Engineering concepts. It was developed to demonstrate the application of structured algorithms, modular programming, and version control.
 
-### 🎯 Purpose & Context
+### Purpose & Context
 The goal of this software is to provide an intuitive interface where users can test their knowledge of variables, control structures, and development cycles. It was built using a **Software Development Life Cycle (SDLC)** approach, moving from requirements gathering to algorithmic design and finally implementation.
 
 ---
 
-## 🛠️ Technical Features (Part B Requirements)
+## Technical Features (Part B Requirements)
 
 ### 1. Data Structures
 The application utilizes an **Array of Objects** (`quizData`) to store and manage the question bank. This allows the software to be scalable—new questions can be added to the data structure without changing the core logic of the program.
@@ -27,7 +27,7 @@ The code is modularized into several key subprograms to ensure readability and r
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 * `/src`: Contains the primary `index.html` file (HTML5, CSS3, and JavaScript).
 * `/docs`: Contains System Documentation, including:
     * `requirements.md`: Requirements and User Specifications.
@@ -37,15 +37,8 @@ The code is modularized into several key subprograms to ensure readability and r
 
 ---
 
-## 🚀 Version Control & Collaboration
+## Version Control & Collaboration
 This project follows industry-standard **Git** workflows:
 * **Weekly Commits:** Regular updates demonstrating the evolution of the software.
 * **Branching:** Features were developed on separate branches before being merged into the main line.
 * **Pull Requests:** Managed pull requests to simulate a collaborative engineering environment.
-
----
-
-## 💻 How to Run
-1. Clone this repository.
-2. Open `index.html` in any modern web browser (Chrome, Firefox, Edge).
-3. No external dependencies or servers are required.
