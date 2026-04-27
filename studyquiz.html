@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EduQuiz: Study Generator</title>
+    <style>
+        /* CSS3: Clean, focused educational UI */
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; padding-top: 50px; }
+        .quiz-container { background: white; width: 500px; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .question-header { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
+        .option-btn { display: block; width: 100%; padding: 12px; margin: 10px 0; background: #fff; border: 2px solid #3498db; border-radius: 5px; cursor: pointer; text-align: left; transition: 0.3s; }
+        .option-btn:hover { background: #e8f4fd; }
+        .score-board { float: right; font-weight: bold; color: #3498db; }
+        #feedback { font-weight: bold; margin-top: 20px; text-align: center; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="score-board">Score: <span id="score">0</span></div>
+    <div id="quiz-ui">
+        <h2 class="question-header" id="question-text">Question Loading...</h2>
+        <div id="options-container">
+            </div>
+        <div id="feedback"></div>
+    </div>
+    
+    <div id="final-screen" class="hidden">
+        <h2>Quiz Complete!</h2>
+        <p>Your final score is: <span id="final-score">0</span></p>
+        <button onclick="location.reload()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">Restart Quiz</button>
+    </div>
+</div>
+
+<script>
+    /* 1. DATA STRUCTURE: The Question Bank */
+    // Using an Array of Objects to store quiz data
+    const quizData = [
+        { 
+            q: "Which keyword is used to declare a variable in JavaScript?", 
+            options: ["var", "define", "allocate", "store"], 
+            correct: "var" 
+        },
+        { 
+            q: "What does HTML stand for?", 
+            options: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyperlink Text Magic Language", "Home Tool Markup Language"], 
+            correct: "Hyper Text Markup Language" 
+        },
+        { 
+            q: "Which data type is used for decimal numbers?", 
+            options: ["Integer", "String", "Float", "Boolean"], 
+            correct: "Float" 
+        }
+    ];
+
+    /* Global State Variables */
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    /* 2. SUBPROGRAM: loadQuestion */
+    function loadQuestion() {
+        const currentData = quizData[currentQuestionIndex];
+        document.getElementById('question-text').innerText = currentData.q;
+        const optionsDiv = document.getElementById('options-container');
+        optionsDiv.innerHTML = ""; // Clear old options
+
+        // ITERATION: Loop through the options array to create buttons
+        currentData.options.forEach(option => {
+            const btn = document.createElement('button');
+            btn.innerText = option;
+            btn.className = "option-btn";
+            // Passing the user choice as a PARAMETER
+            btn.onclick = () => handleAnswer(option);
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    /* 3. SUBPROGRAM: handleAnswer (Parameter Passing & Selection) */
+    function handleAnswer(choice) {
+        const correctAnswer = quizData[currentQuestionIndex].correct;
+        const feedback = document.getElementById('feedback');
+
+        if (choice === correctAnswer) {
+            score++;
+            feedback.innerText = "Correct! ✨";
+            feedback.style.color = "#27ae60";
+        } else {
+            feedback.innerText = "Incorrect. The answer was: " + correctAnswer;
+            feedback.style.color = "#e74c3c";
+        }
+
+        document.getElementById('score').innerText = score;
+
+        // Sequence logic to move forward
+        currentQuestionIndex++;
+        
+        setTimeout(() => {
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+                feedback.innerText = "";
+            } else {
+                showFinalScore();
+            }
+        }, 1500);
+    }
+
+    /* 4. SUBPROGRAM: showFinalScore */
+    function showFinalScore() {
+        document.getElementById('quiz-ui').classList.add('hidden');
+        document.getElementById('final-screen').classList.remove('hidden');
+        document.getElementById('final-score').innerText = score;
+    }
+
+    // Initialize the quiz
+    loadQuestion();
+</script>
+
+</body>
+</html>
