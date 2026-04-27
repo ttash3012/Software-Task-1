@@ -27,7 +27,7 @@ I broke my code into "subprograms" (functions) so it wasn't just one big mess:
 ---
 
 ## What's in this Repo?
-* **/src**: This is where my `index.html` file lives. It has all my HTML5, CSS3, and JavaScript code.
+* **/src**: This is where my `study_quiz.html` file lives. It has all my HTML5, CSS3, and JavaScript code.
 * **/docs**: My planning work, like my structure charts, pseudocode, and my bug log (where I wrote down the errors I fixed).
 * **/assets**: Photos of my diagrams.
 
@@ -39,6 +39,6 @@ I used GitHub to manage this project. I didn't just upload it all at the end! If
 ---
 
 ## How to play
-1. Download the `index.html` file.
+1. Download the `study_quiz.html` file.
 2. Open it in Chrome or any browser.
 3. Try to get 9/9!
