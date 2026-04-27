@@ -1,44 +1,46 @@
 # Software Engineering Task 1: Study Quiz Generator
-**Interactive Educational Product for Software Engineering Students**
+**My Interactive Website Project**
 
-## Project Overview
-This project is an interactive, web-based educational tool designed to help students learn and review core Programming and Software Engineering concepts. It was developed to demonstrate the application of structured algorithms, modular programming, and version control.
+## About My Project
+For this task, I designed and coded an interactive quiz website. The main goal was to create a tool that helps other students study for Software Engineering by testing them on things like programming logic and data types.
 
-### Purpose & Context
-The goal of this software is to provide an intuitive interface where users can test their knowledge of variables, control structures, and development cycles. It was built using a **Software Development Life Cycle (SDLC)** approach, moving from requirements gathering to algorithmic design and finally implementation.
+I didn't just write the code—I followed the whole development cycle. This meant planning out my requirements first, drawing a structure chart to see how the "bits" of my program fit together, and using GitHub to track my progress every week.
 
 ---
 
-## Technical Features (Part B Requirements)
+## How the Code Works (Part B Stuff)
+
+To get the best marks, I made sure my code used the important structures we learned in class:
 
 ### 1. Data Structures
-The application utilizes an **Array of Objects** (`quizData`) to store and manage the question bank. This allows the software to be scalable—new questions can be added to the data structure without changing the core logic of the program.
+Instead of making a new page for every question, I used an **Array of Objects** called `quizData`. This is basically a big list that holds all my questions, options, and the correct answers in one spot. It’s cool because I can add 100 more questions to the list and the code will still work perfectly.
 
-### 2. Subprograms & Parameter Passing
-The code is modularized into several key subprograms to ensure readability and reuse:
-* `loadQuestion()`: Initializes the UI and iterates through the data.
-* `handleAnswer(userChoice)`: **Accepts a string parameter** from the user's action and performs selection logic.
-* `showResults()`: Handles the end-of-session state.
+### 2. Subprograms & Passing Parameters
+I broke my code into "subprograms" (functions) so it wasn't just one big mess:
+* `loadQuestion()`: This runs every time a new question pops up.
+* `handleAnswer(userChoice)`: This is a subprogram that uses **parameter passing**. It takes the button the user clicked (the parameter) and checks it against the right answer.
+* `showResults()`: This only runs at the very end to show your total score.
 
-### 3. Control Structures
-* **Sequence:** The logical flow from loading questions to displaying results.
-* **Selection:** `IF/ELSE` statements used to validate user answers and calculate scores.
-* **Iteration:** Using `.forEach` to dynamically generate HTML buttons based on the number of options in the data structure.
-
----
-
-## Repository Structure
-* `/src`: Contains the primary `index.html` file (HTML5, CSS3, and JavaScript).
-* `/docs`: Contains System Documentation, including:
-    * `requirements.md`: Requirements and User Specifications.
-    * `algorithms.md`: Structure Charts and Pseudocode.
-    * `data_and_debugging.md`: Data Dictionary and Bug Log.
-* `/assets`: Images and diagrams.
+### 3. Logic & Control Structures
+* **Selection:** I used `if/else` statements to decide if the user got the point or if they got it wrong.
+* **Iteration:** I used a `.forEach` loop. This "iterates" through my list of options to create the buttons automatically.
+* **Sequence:** I made sure the code runs in the right order—you can't see your score until you finish the questions!
 
 ---
 
-## Version Control & Collaboration
-This project follows industry-standard **Git** workflows:
-* **Weekly Commits:** Regular updates demonstrating the evolution of the software.
-* **Branching:** Features were developed on separate branches before being merged into the main line.
-* **Pull Requests:** Managed pull requests to simulate a collaborative engineering environment.
+## What's in this Repo?
+* **/src**: This is where my `index.html` file lives. It has all my HTML5, CSS3, and JavaScript code.
+* **/docs**: My planning work, like my structure charts, pseudocode, and my bug log (where I wrote down the errors I fixed).
+* **/assets**: Photos of my diagrams.
+
+---
+
+## Version Control
+I used GitHub to manage this project. I didn't just upload it all at the end! If you look at my **commits**, you can see how I added the UI first, then the logic, and then fixed bugs. I also used **Pull Requests** to show how I can manage my code like a real software engineer.
+
+---
+
+## How to play
+1. Download the `index.html` file.
+2. Open it in Chrome or any browser.
+3. Try to get 9/9!
