@@ -1,138 +1,229 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logic Master: Puzzle Trainer</title>
+    <title>Software Engineering: Study Quiz Pro</title>
     <style>
-        /* CSS3: Styling for an intuitive educational interface */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #2c3e50;
-            color: white;
+        /* CSS3: Professional Educational Interface */
+        :root {
+            --primary: #3498db;
+            --success: #27ae60;
+            --error: #e74c3c;
+            --bg: #f4f7f6;
+            --text: #2c3e50;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg); 
+            display: flex; 
+            justify-content: center; 
+            padding: 40px 20px;
+            color: var(--text);
+        }
+
+        .quiz-container { 
+            background: white; 
+            width: 100%;
+            max-width: 600px; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1); 
+        }
+
+        .header-box {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
-        .app-container {
-            background-color: #ecf0f1;
-            color: #2c3e50;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            width: 400px;
-            text-align: center;
+
+        .question-text { font-size: 1.3rem; margin-bottom: 20px; line-height: 1.4; }
+
+        .option-btn { 
+            display: block; 
+            width: 100%; 
+            padding: 15px; 
+            margin: 12px 0; 
+            background: #fff; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            text-align: left; 
+            font-size: 1rem;
+            transition: all 0.2s ease;
         }
-        .stats-bar { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: bold; }
-        .question-box { background: #3498db; color: white; padding: 20px; border-radius: 8px; min-height: 80px; margin-bottom: 20px; }
-        input { width: 80%; padding: 10px; border: 2px solid #bdc3c7; border-radius: 4px; font-size: 1.2rem; }
-        button { margin-top: 15px; padding: 10px 25px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; }
-        button:hover { background: #2ecc71; }
-        #feedback { margin-top: 15px; font-weight: bold; height: 20px; }
+
+        .option-btn:hover { 
+            border-color: var(--primary);
+            background: #f0f7ff;
+            transform: translateY(-2px);
+        }
+
+        .score-display { font-weight: bold; color: var(--primary); font-size: 1.1rem; }
+
+        #feedback { 
+            font-weight: bold; 
+            margin-top: 20px; 
+            text-align: center; 
+            min-height: 24px;
+        }
+
+        .hidden { display: none; }
+
+        .btn-restart {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div class="stats-bar">
-        <span>Score: <span id="score">0</span></span>
-        <span>Level: <span id="level">Beginner</span></span>
+<div class="quiz-container">
+    <div class="header-box">
+        <h3 style="margin:0;">EduQuiz Generator</h3>
+        <div class="score-display">Score: <span id="score">0</span></div>
     </div>
 
-    <div class="question-box">
-        <p id="question-text">Loading puzzle...</p>
+    <div id="quiz-ui">
+        <div class="question-text" id="question-text">Initializing quiz engine...</div>
+        <div id="options-container"></div>
+        <div id="feedback"></div>
     </div>
-
-    <input type="number" id="user-input" placeholder="Enter answer">
-    <br>
-    <button onclick="handleSubmission()">Submit Answer</button>
-
-    <div id="feedback"></div>
+    
+    <div id="final-screen" class="hidden" style="text-align: center;">
+        <h2>Quiz Complete! 🎓</h2>
+        <p style="font-size: 1.2rem;">Your final score: <span id="final-score">0</span> / <span id="total-qs">0</span></p>
+        <button class="btn-restart" onclick="location.reload()">Restart Session</button>
+    </div>
 </div>
 
 <script>
-    /* 1. DATA STRUCTURE (The Store) */
-    // An array of objects to store puzzle data
-    const puzzleLibrary = [
-        { q: "What is 15 + 27?", a: 42, difficulty: 1 },
-        { q: "Find the next number: 2, 4, 8, 16, ?", a: 32, difficulty: 1 },
-        { q: "A triangle has angles 90 and 45. What is the 3rd?", a: 45, difficulty: 2 },
-        { q: "If x + 5 = 12, what is x?", a: 7, difficulty: 2 },
-        { q: "What is 12 x 12?", a: 144, difficulty: 3 },
-        { q: "Square root of 81?", a: 9, difficulty: 3 }
+    /* 1. DATA STRUCTURE: The Question Bank (Expanded) */
+    // This fulfills the requirement for an organized data structure.
+    const quizData = [
+        { 
+            q: "Which keyword is used to declare a constant variable in JavaScript?", 
+            options: ["const", "var", "let", "fixed"], 
+            correct: "const" 
+        },
+        { 
+            q: "What does HTML stand for?", 
+            options: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyperlink Text Magic", "Home Tool Markup Language"], 
+            correct: "Hyper Text Markup Language" 
+        },
+        { 
+            q: "In programming, which control structure is used for repeating a task?", 
+            options: ["Selection", "Sequence", "Iteration", "Storage"], 
+            correct: "Iteration" 
+        },
+        { 
+            q: "Which data type is most appropriate for a measurement like 1.75 meters?", 
+            options: ["Integer", "Boolean", "Float", "String"], 
+            correct: "Float" 
+        },
+        { 
+            q: "What is the role of a 'Structure Chart' in software design?", 
+            options: ["Styling the webpage", "Showing program modularity", "Storing data", "Debugging syntax errors"], 
+            correct: "Showing program modularity" 
+        },
+        { 
+            q: "Which of these is a professional version control platform?", 
+            options: ["GitHub", "Sublime Text", "Chrome", "Windows"], 
+            correct: "GitHub" 
+        },
+        { 
+            q: "What is a 'Subprogram' primarily used for?", 
+            options: ["Reusing code and modularity", "Making the text bold", "Connecting to the internet", "Increasing RAM"], 
+            correct: "Reusing code and modularity" 
+        },
+        { 
+            q: "What does CSS stand for?", 
+            options: ["Computer System Styles", "Cascading Style Sheets", "Creative Software Solutions", "Central Styling Syntax"], 
+            correct: "Cascading Style Sheets" 
+        },
+        { 
+            q: "In GitHub, what is a 'Commit' message used for?", 
+            options: ["Sending an email", "Describing a code change", "Deleting a project", "Creating a password"], 
+            correct: "Describing a code change" 
+        }
     ];
 
-    /* Global Variables */
-    let currentScore = 0;
-    let currentIndex = 0;
+    /* Global State */
+    let currentIdx = 0;
+    let score = 0;
 
-    /* 2. SUBPROGRAM: Load Question */
+    /* 2. SUBPROGRAM: loadQuestion */
     function loadQuestion() {
-        document.getElementById('question-text').innerText = puzzleLibrary[currentIndex].q;
-        document.getElementById('user-input').value = "";
-        document.getElementById('feedback').innerText = "";
+        const currentData = quizData[currentIdx];
+        document.getElementById('question-text').innerText = `Q${currentIdx + 1}: ${currentData.q}`;
+        
+        const optionsDiv = document.getElementById('options-container');
+        optionsDiv.innerHTML = ""; // Clear UI
+
+        // ITERATION: Loop through options to build buttons
+        currentData.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.innerText = opt;
+            btn.className = "option-btn";
+            // PARAMETER PASSING: Sending the user's string choice to the handler
+            btn.onclick = () => handleAnswer(opt);
+            optionsDiv.appendChild(btn);
+        });
     }
 
-    /* 3. SUBPROGRAM: verifyAnswer (Parameter Passing) */
-    // Demonstrates COMPLEX LOGIC and SELECTION
-    function verifyAnswer(userInput, correctAnswer) {
-        if (parseFloat(userInput) === correctAnswer) {
-            return true;
+    /* 3. SUBPROGRAM: handleAnswer (Parameter Passing & Selection) */
+    function handleAnswer(userChoice) {
+        const correctAns = quizData[currentIdx].correct;
+        const feedback = document.getElementById('feedback');
+
+        // SELECTION: Check if answer is correct
+        if (userChoice === correctAns) {
+            score++;
+            feedback.innerText = "Correct! ✨";
+            feedback.style.color = "var(--success)";
         } else {
-            return false;
+            feedback.innerText = "Incorrect. Answer: " + correctAns;
+            feedback.style.color = "var(--error)";
         }
+
+        document.getElementById('score').innerText = score;
+
+        // SEQUENCE: Move to next step
+        currentIdx++;
+        
+        // Disable buttons to prevent double-clicking
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(b => b.disabled = true);
+
+        setTimeout(() => {
+            if (currentIdx < quizData.length) {
+                loadQuestion();
+                feedback.innerText = "";
+            } else {
+                showResults();
+            }
+        }, 1200);
     }
 
-    /* 4. SUBPROGRAM: levelManager (Update Level based on Score) */
-    function updateLevel(score) {
-        let levelSpan = document.getElementById('level');
-        if (score >= 50) {
-            levelSpan.innerText = "Grandmaster";
-            levelSpan.style.color = "#e67e22";
-        } else if (score >= 30) {
-            levelSpan.innerText = "Expert";
-            levelSpan.style.color = "#9b59b6";
-        } else if (score >= 10) {
-            levelSpan.innerText = "Intermediate";
-        }
+    /* 4. SUBPROGRAM: Results Screen */
+    function showResults() {
+        document.getElementById('quiz-ui').classList.add('hidden');
+        document.getElementById('final-screen').classList.remove('hidden');
+        document.getElementById('final-score').innerText = score;
+        document.getElementById('total-qs').innerText = quizData.length;
     }
 
-    /* 5. MAIN CONTROLLER */
-    function handleSubmission() {
-        let uInput = document.getElementById('user-input').value;
-        let cAnswer = puzzleLibrary[currentIndex].a;
-
-        // Call subprogram with parameters
-        let isCorrect = verifyAnswer(uInput, cAnswer);
-
-        if (isCorrect) {
-            currentScore += 10;
-            document.getElementById('feedback').innerText = "Correct! +10 Points";
-            document.getElementById('feedback').style.color = "green";
-        } else {
-            document.getElementById('feedback').innerText = "Try again!";
-            document.getElementById('feedback').style.color = "red";
-        }
-
-        // Update Score and Level
-        document.getElementById('score').innerText = currentScore;
-        updateLevel(currentScore);
-
-        // Move to next puzzle (Iteration logic)
-        currentIndex++;
-        if (currentIndex >= puzzleLibrary.length) {
-            currentIndex = 0; // Loop back to start
-        }
-
-        // Delay loading next question so user can see feedback
-        setTimeout(loadQuestion, 1500);
-    }
-
-    // Initial load
+    // Initial Execution
     loadQuestion();
 </script>
 
