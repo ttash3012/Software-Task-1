@@ -142,5 +142,95 @@
             correct: "GitHub" 
         },
         { 
-            q: "If a = 5 and b = 1
-                
+            q: "If a = 5 and b = 10, what is the result of (a == b)?", 
+            options: ["True", "False", "Error", "15"], 
+            correct: "False" 
+        },
+        { 
+            q: "What is a 'Subprogram' primarily used for?", 
+            options: ["Reusing code and modularity", "Making the text bold", "Connecting to the internet", "Increasing RAM"], 
+            correct: "Reusing code and modularity" 
+        },
+        { 
+            q: "What does CSS stand for?", 
+            options: ["Computer System Styles", "Cascading Style Sheets", "Creative Software Solutions", "Central Styling Syntax"], 
+            correct: "Cascading Style Sheets" 
+        },
+        { 
+            q: "In GitHub, what is a 'Commit' message used for?", 
+            options: ["Sending an email", "Describing a code change", "Deleting a project", "Creating a password"], 
+            correct: "Describing a code change" 
+        }
+    ];
+
+    /* Global State */
+    let currentIdx = 0;
+    let score = 0;
+
+    /* 2. SUBPROGRAM: loadQuestion */
+    function loadQuestion() {
+        const currentData = quizData[currentIdx];
+        document.getElementById('question-text').innerText = `Q${currentIdx + 1}: ${currentData.q}`;
+        
+        const optionsDiv = document.getElementById('options-container');
+        optionsDiv.innerHTML = ""; // Clear UI
+
+        // ITERATION: Loop through options to build buttons
+        currentData.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.innerText = opt;
+            btn.className = "option-btn";
+            // PARAMETER PASSING: Sending the user's string choice to the handler
+            btn.onclick = () => handleAnswer(opt);
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    /* 3. SUBPROGRAM: handleAnswer (Parameter Passing & Selection) */
+    function handleAnswer(userChoice) {
+        const correctAns = quizData[currentIdx].correct;
+        const feedback = document.getElementById('feedback');
+
+        // SELECTION: Check if answer is correct
+        if (userChoice === correctAns) {
+            score++;
+            feedback.innerText = "Correct! ✨";
+            feedback.style.color = "var(--success)";
+        } else {
+            feedback.innerText = "Incorrect. Answer: " + correctAns;
+            feedback.style.color = "var(--error)";
+        }
+
+        document.getElementById('score').innerText = score;
+
+        // SEQUENCE: Move to next step
+        currentIdx++;
+        
+        // Disable buttons to prevent double-clicking
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(b => b.disabled = true);
+
+        setTimeout(() => {
+            if (currentIdx < quizData.length) {
+                loadQuestion();
+                feedback.innerText = "";
+            } else {
+                showResults();
+            }
+        }, 1200);
+    }
+
+    /* 4. SUBPROGRAM: Results Screen */
+    function showResults() {
+        document.getElementById('quiz-ui').classList.add('hidden');
+        document.getElementById('final-screen').classList.remove('hidden');
+        document.getElementById('final-score').innerText = score;
+        document.getElementById('total-qs').innerText = quizData.length;
+    }
+
+    // Initial Execution
+    loadQuestion();
+</script>
+
+</body>
+</html>
