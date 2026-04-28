@@ -29,7 +29,7 @@
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
+            width: 90%;
             max-width: 500px;
             padding: 2rem;
             border-radius: 24px;
@@ -54,7 +54,7 @@
 
         .stats { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 1rem; color: #94a3b8; }
 
-        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; line-height: 1.4; }
+        h2 { font-size: 1.4rem; margin-bottom: 1.5rem; line-height: 1.4; height: 60px; display: flex; align-items: center; }
 
         .options-grid { display: grid; gap: 1rem; }
 
@@ -70,7 +70,7 @@
             transition: all 0.2s ease;
         }
 
-        .option-btn:hover {
+        .option-btn:hover:not(:disabled) {
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--primary);
             transform: translateX(5px);
@@ -79,7 +79,7 @@
         .option-btn.correct { background: var(--success) !important; border-color: var(--success); }
         .option-btn.wrong { background: var(--error) !important; border-color: var(--error); }
 
-        #feedback { text-align: center; margin-top: 1.5rem; font-weight: 600; min-height: 1.5rem; }
+        #feedback { text-align: center; margin-top: 1.5rem; font-weight: 600; min-height: 1.5rem; font-size: 1.1rem; }
 
         .hidden { display: none; }
 
@@ -106,37 +106,36 @@
             <span>Question <span id="q-num">1</span>/9</span>
             <span>Score: <span id="score">0</span></span>
         </div>
-        <h2 id="question-text">Loading...</h2>
+        <h2 id="question-text">Ready to start?</h2>
         <div id="options-container" class="options-grid"></div>
         <div id="feedback"></div>
     </div>
 
     <div id="result-screen" class="hidden" style="text-align: center;">
         <h1>Quiz Complete! 🎉</h1>
-        <p style="font-size: 1.2rem; color: #94a3b8;">You scored <span id="final-score">0</span> out of 10</p>
-        <button class="btn-main" onclick="location.reload()">Try Again</button>
+        <p style="font-size: 1.2rem; color: #94a3b8;">Final Score: <span id="final-score">0</span> / 9</p>
+        <button class="btn-main" onclick="location.reload()">Restart Quiz</button>
     </div>
 </div>
 
 <script>
-    /* 1. DATA STRUCTURE */
+    /* 1. DATA STRUCTURE (9 Questions) */
     const quizData = [
         { q: "Which keyword declares a constant in JS?", options: ["const", "let", "var", "static"], correct: "const" },
         { q: "What does HTML stand for?", options: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyperlink Text Magic", "Home Tool Markup Language"], correct: "Hyper Text Markup Language" },
         { q: "Which structure is used for repeating tasks?", options: ["Iteration", "Selection", "Sequence", "Storage"], correct: "Iteration" },
-        { q: "Which data type is for 3.14?", options: ["Float", "Integer", "Boolean", "String"], correct: "Float" },
-        { q: "What is a 'Subprogram' used for?", options: ["Modularity & Reuse", "Making text bold", "Styling a page", "Increasing RAM"], correct: "Modularity & Reuse" },
-        { q: "Which is a version control tool?", options: ["GitHub", "Sublime", "Chrome", "Python"], correct: "GitHub" },
-        { q: "What is the purpose of CSS?", options: ["Styling and Layout", "Logic and Math", "Database storage", "Hardware control"], correct: "Styling and Layout" },
-        { q: "What does 'UI' stand for?", options: ["User Interface", "Unit Input", "User Interaction", "Unique Identity"], correct: "User Interface" },
-        { q: "What is a 'Commit' in Git?", options: ["Saving code changes", "Deleting a file", "Sending an email", "Writing a comment"], correct: "Saving code changes" }
+        { q: "Which data type is for decimal numbers like 3.14?", options: ["Float", "Integer", "Boolean", "String"], correct: "Float" },
+        { q: "What is a 'Subprogram' primarily used for?", options: ["Modularity & Reuse", "Making text bold", "Styling a page", "Increasing RAM"], correct: "Modularity & Reuse" },
+        { q: "Which is a version control tool used by developers?", options: ["GitHub", "Sublime Text", "Chrome", "Python"], correct: "GitHub" },
+        { q: "What is the primary purpose of CSS?", options: ["Styling and Layout", "Logic and Math", "Database storage", "Hardware control"], correct: "Styling and Layout" },
+        { q: "What does 'UI' stand for in software design?", options: ["User Interface", "Unit Input", "User Interaction", "Unique Identity"], correct: "User Interface" },
+        { q: "What is a 'Commit' in the context of Git?", options: ["Saving code changes", "Deleting a file", "Sending an email", "Writing a comment"], correct: "Saving code changes" }
     ];
 
     let currentIdx = 0;
     let score = 0;
 
-    /* 2. COMPLEX LOGIC: Fisher-Yates Shuffle Algorithm */
-    // This randomizes the options array so the answer moves around
+    /* 2. COMPLEX LOGIC: Shuffle Algorithm */
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -155,7 +154,7 @@
         const optionsContainer = document.getElementById('options-container');
         optionsContainer.innerHTML = "";
         
-        // Shuffle the options before displaying them!
+        // Shuffle options so the correct answer isn't always in the same spot
         const shuffledOptions = shuffleArray([...data.options]);
 
         shuffledOptions.forEach(opt => {
@@ -167,12 +166,11 @@
         });
     }
 
-    /* 4. SUBPROGRAM: Handle Answer (Parameters & Selection) */
+    /* 4. SUBPROGRAM: Handle Answer */
     function handleAnswer(choice, btn) {
         const correctAns = quizData[currentIdx].correct;
         const feedback = document.getElementById('feedback');
         
-        // Disable all buttons immediately
         const allBtns = document.querySelectorAll('.option-btn');
         allBtns.forEach(b => b.disabled = true);
 
@@ -197,7 +195,7 @@
             } else {
                 showFinalResults();
             }
-        }, 1200);
+        }, 1000);
     }
 
     function showFinalResults() {
